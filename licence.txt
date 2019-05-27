@@ -1,2 +1,0 @@
-RelativeLayout
-https://tyeolrik.github.io/android/2017/11/21/Android-ImageView-Over-SurfaceView.html

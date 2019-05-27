@@ -1,0 +1,173 @@
+package org.techtown.ar;
+
+import android.content.Context;
+
+public class DataManager {
+    //모든 센서값의 데이터를 저장하는 클래스
+
+    int roundingConst=10;
+    double accX=0, accY=0, accZ=0;
+    double angleXZ=0, angleYZ=0;
+    double historicAngleXZ[], historicAngleYZ[];
+    double roundAngleXZ=0, roundAngleYZ=0;
+    double GPSlongitude=0, GPSlatitude=0;
+    float GPSaccuracy=0;
+    double accConst=0, GPSConst=0, GyroConst=0;
+    double pitch=0, law=0, roll=0;
+    double siteXZ=0, siteYZ=0;
+    double sitePitch=0, siteRoll=0;
+
+    int count=0;
+
+    DataManager(Context context) {
+        historicAngleXZ= new double[roundingConst];
+        historicAngleYZ= new double[roundingConst];
+    }
+
+    public void setSiteXZYZ(double siteXZ, double siteYZ) {
+        this.siteXZ = siteXZ;
+        this.siteYZ = siteYZ;
+    }
+
+    public void setSitePR(double sitePitch, double siteRoll) {
+        this.sitePitch = sitePitch;
+        this.siteRoll = siteRoll;
+    }
+
+    public double getSitePitch() {
+        return sitePitch;
+    }
+    public double getSiteRoll() {
+        return siteRoll;
+    }
+    public double getSiteXZ() {
+        return siteXZ;
+    }
+    public double getSiteYZ() {
+        return siteYZ;
+    }
+    public double getAccConst() {
+        return accConst;
+    }
+    public double getAccX() {
+        return accX;
+    }
+    public double getAccY() {
+        return accY;
+    }
+    public double getAccZ() {
+        return accZ;
+    }
+    public double getAngleXZ() {
+        return angleXZ;
+    }
+    public double getAngleYZ() {
+        return angleYZ;
+    }
+    public double getGPSConst() {
+        return GPSConst;
+    }
+    public double getGPSlatitude() {
+        return GPSlatitude;
+    }
+    public double getGPSlongitude() {
+        return GPSlongitude;
+    }
+    public double getGyroConst() {
+        return GyroConst;
+    }
+
+
+
+    // 보정을 위해 가속도센서값 roundingConst개의 평균값으로 이미지의 좌표를 출력
+    public double getHistoricAngleXZ() {
+        double temp =0;
+        for(int i=0; i<roundingConst; i++) {
+            temp += historicAngleXZ[i];
+        }
+        return temp/roundingConst;
+    }
+    // 보정을 위해 가속도센서값 roundingConst개의 평균값으로 이미지의 좌표를 출력
+    public double getHistoricAngleYZ() {
+        double temp =0;
+        for(int i=0; i<roundingConst; i++) {
+            temp += historicAngleYZ[i];
+        }
+        return temp/roundingConst;
+    }
+
+    // 가속도 센서값의 분산
+    public double getStdHistoricAngleXZ() {
+        double avg = getHistoricAngleXZ();
+        double temp = 0;
+        for (int i = 0; i < roundingConst; i++) {
+            temp += Math.abs(historicAngleXZ[i] - avg);
+        }
+        return temp / roundingConst;
+    }
+    // 가속도 센서값의 분산
+    public double getStdHistoricAngleYZ() {
+        double avg = getHistoricAngleYZ();
+        double temp =0;
+        for(int i=0; i<roundingConst; i++) {
+            temp += Math.abs(historicAngleYZ[i]-avg);
+        }
+        return temp / roundingConst;
+    }
+
+    public double getLaw() {
+        return law;
+    }
+    public double getPitch() {
+        return pitch;
+    }
+    public double getRoll() {
+        return roll;
+    }
+    public double getRoundAngleXZ() {
+        return roundAngleXZ;
+    }
+    public double getRoundAngleYZ() {
+        return roundAngleYZ;
+    }
+    public float getGPSaccuracy() {
+        return GPSaccuracy;
+    }
+
+    public void setAccXYZ(double accX, double accY, double accZ) {
+        this.accX = accX;
+        this.accY = accY;
+        this.accZ = accZ;
+    }
+
+    public void setAngle(double angleXZ, double angleYZ) {
+        count = ++count%roundingConst;
+        this.historicAngleXZ[count] = angleXZ;
+        this.historicAngleYZ[count] = angleYZ;
+        this.angleXZ = getHistoricAngleXZ();
+        this.angleYZ = getHistoricAngleYZ();
+    }
+
+    public void setGPS(double GPSlongitude, double GPSlatitude, float GPSaccuracy) {
+        this.GPSlongitude = GPSlongitude;
+        this.GPSlatitude = GPSlatitude;
+        this.GPSaccuracy=GPSaccuracy;
+    }
+
+    public void setGyroPLR(double pitch, double law, double roll) {
+        this.pitch=pitch;
+        this.law=law;
+        this.roll=roll;
+    }
+
+    public void setAccConst(double accConst) {
+        this.accConst = accConst;
+    }
+    public void setGPSConst(double GPSConst) {
+        this.GPSConst = GPSConst;
+    }
+    public void setGyroConst(double gyroConst) {
+        GyroConst = gyroConst;
+    }
+
+}

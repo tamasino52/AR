@@ -60,29 +60,28 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class MainActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback {
+    public class MainActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback {
 
-    private Context mContext = null;
-    private boolean m_bTrackingMode = true;
+            private Context mContext = null;
+            private boolean m_bTrackingMode = true;
 
-    private TMapGpsManager tmapgps = null;
-    private TMapView tmapview = null;
-    private static String mApikey = "5048eadb-2001-47be-8a5e-dde06eb463cf";
-    private static int mMarkerID;
+            private TMapGpsManager tmapgps = null;
+            private TMapView tmapview = null;
+            private static String mApikey = "5048eadb-2001-47be-8a5e-dde06eb463cf";
+            private static int mMarkerID;
 
-    private ArrayList<TMapPoint> m_tmapPoint = new ArrayList<TMapPoint>();
-    private ArrayList<String> mArrayMakerID = new ArrayList<String>();
-    private ArrayList<MapPoint> m_mapPoint = new ArrayList<MapPoint>();
+            private ArrayList<TMapPoint> m_tmapPoint = new ArrayList<TMapPoint>();
+            private ArrayList<String> mArrayMakerID = new ArrayList<String>();
+            private ArrayList<MapPoint> m_mapPoint = new ArrayList<MapPoint>();
 
-    static  String s = "turn type : ";
 
-    @Override
-    public void onLocationChange(Location location) //위치가 변했을 때
-    {
-        if (m_bTrackingMode) {
-            tmapview.setLocationPoint(location.getLongitude(), location.getLatitude());
-        }
-    }
+            @Override
+            public void onLocationChange(Location location) //위치가 변했을 때
+            {
+                if (m_bTrackingMode) {
+                    tmapview.setLocationPoint(location.getLongitude(), location.getLatitude());
+                }
+            }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         searchRoute(searchPoint);
         //getXml(myPoint, searchPoint);
         showTurnType(myPoint, searchPoint);
+
+        deleteMarkerPoint();
     }
 
     public void addPoint() //m_mapPoint List에 출력하고자 하는 위치들 추가
@@ -161,10 +162,10 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             public void run(){
                 try {
                     Document e = null;
-                    StringBuilder uri = new StringBuilder();
+                    StringBuilder uri = new StringBuilder();  //URL 앞부분을 저장한 String builder 선언
                     uri.append("https://api2.sktelecom.com/tmap/");
                     uri.append("routes/pedestrian?version=1");
-                    StringBuilder content = new StringBuilder();
+                    StringBuilder content = new StringBuilder(); //URL content에 parameter로 받아온 값들 입력
                     content.append("reqCoordType=WGS84GEO&resCoordType=WGS84GEO&format=xml");
                     content.append("&startY=").append(startPoint.getLatitude());
                     content.append("&startX=").append(startPoint.getLongitude());
@@ -173,14 +174,14 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                     content.append("&startName=").append(URLEncoder.encode("출발지", "UTF-8"));
                     content.append("&endName=").append(URLEncoder.encode("도착지", "UTF-8"));
 
-                    StringBuilder StringEx1;
+                    StringBuilder StringEx1; //url header 부분과 api key를 저장할 string builder 선언
                     StringEx1 = new StringBuilder();
                     StringEx1.append(uri.toString());
                     StringEx1.append("&appKey=").append("5048eadb-2001-47be-8a5e-dde06eb463cf");
-                    URLConnection con = HttpConnect.postHttps(StringEx1.toString(), content.toString(), false);
+                    URLConnection con = HttpConnect.postHttps(StringEx1.toString(), content.toString(), false); //url header와 content를 결합
 
                     try {
-                        HttpURLConnection ez = (HttpURLConnection) con;
+                        //HttpURLConnection ez = (HttpURLConnection) con;
                         e = HttpConnect.getDocument(con);
                     } catch (Exception ezx) {
                         Log.i("error", "에러 발생");
@@ -190,21 +191,20 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                        NodeList list = e.getElementsByTagName("Placemark");
 
                        for(int i = 0 ; i<list.getLength(); i++)
-                       {
+                        {
                             NodeList placemarkList = list.item(i).getChildNodes();
                             Integer turn;
                             for(int j = 0 ; j < placemarkList.getLength() ; j ++)
                             {
                                 if (placemarkList.item(j).getNodeName().equals("description")) {
-                                    Log.d("debug", placemarkList.item(j).getTextContent().trim());
+                                    Log.i("debug", placemarkList.item(j).getTextContent().trim());
                                 }
                                 if(placemarkList.item(j).getNodeName().equals("tmap:turnType")) {
                                     turn = Integer.parseInt(placemarkList.item(j).getTextContent());
-                                    Log.i("turn type", "turn type : " +turn+"\n");
+                                    Log.i("turn type","turn type : "+turn);
                                 }
                             }
-                       }
-
+                        }
                     }
                 }catch(Exception e ) {
                     Log.i("error발생", "error");
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     public void showMarkerPoint() //배열에 저장된 Point들의 위치를 지도 위에 찍어주는 함수
     {
         Bitmap bitmap = null;
-        bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.poi_dot);
+        bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.poi_dot); //Marker 위에 표현할 bitmap 이미지 지정
 
         for (int i = 0; i < m_mapPoint.size(); i++) {
             TMapPoint point = new TMapPoint(m_mapPoint.get(i).getLatitude(), m_mapPoint.get(i).getLongitude());
@@ -247,5 +247,10 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
             markerItem1.setCanShowCallout(true);
             markerItem1.setCalloutTitle(m_mapPoint.get(i).getName());
         }
+    }
+
+    public void deleteMarkerPoint() //지도 위에 표시된 모든 marker를 삭제하는 함수
+    {
+        tmapview.removeAllMarkerItem();
     }
 }

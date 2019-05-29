@@ -33,8 +33,9 @@ public class CameraActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        doFullScreen();
     }
+
 
     public void onCameraScreenTouched(View v) {
 

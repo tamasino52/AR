@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.w3c.dom.NodeList;
@@ -50,6 +51,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
 
+import com.skt.Tmap.TMapCircle;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
@@ -96,6 +98,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
     private ArrayList<MapPoint> m_mapPoint = new ArrayList<MapPoint>();
 
     public DataManager dataManager;
+    public SeekBar seekBarAround;
 
     //Tmap API를 주로 다루게 될 API
     @Override
@@ -103,6 +106,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
     {
         if (m_bTrackingMode) {
             tmapview.setLocationPoint(location.getLongitude(), location.getLatitude());
+            drawCirclePoint(tmapview,new TMapPoint(location.getLatitude(),location.getLongitude()),300);
         }
     }
 
@@ -112,13 +116,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
 
     //화면을 터치하면 소프트키가 2초간 등장했다가 다시 사라짐
     public void onMapScreenTouched(View v) {
-        // 2초간 멈추게 하고싶다면
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                doFullScreen();
-            }
-        }, 2000);
+        doFullScreen();
     }
 
     // 현재 화면을 전체화면으로 전환해주는 함수
@@ -140,6 +138,32 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_tmap);
         doFullScreen();
+
+        //seekBar 세팅
+        seekBarAround = (SeekBar) findViewById(R.id.seekBarAround);
+        seekBarAround.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                switch (progress) {
+                    case 0:
+                        changeCircleSize(tmapview,0);
+                        break;
+                    case 1:
+                        changeCircleSize(tmapview,200);
+                        break;
+                    case 2:
+                        changeCircleSize(tmapview,500);
+                        break;
+                    case 3:
+                        changeCircleSize(tmapview,1000);
+                        break;
+                }
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
 
         mContext = this;
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mapView);
@@ -169,7 +193,37 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         TMapPoint myPoint = new TMapPoint(tmapview.getLatitude(), tmapview.getLongitude());
         TMapPoint searchPoint = new TMapPoint(37.512159, 126.925482);//경로 탐색 실행
 
+
+
     }
+
+    // 뷰, 위치, 원의 크기를 입력하면 해당 위치에 원을 그려줌
+    public void drawCirclePoint(TMapView tMapView, TMapPoint myPoint, int CircleSize) {
+        if(tMapView.getCircleFromID("myCircle")==null) {
+            TMapCircle tMapCircle = new TMapCircle();
+            tMapCircle.setCenterPoint( myPoint );
+            tMapCircle.setRadius(CircleSize);
+            tMapCircle.setCircleWidth(2);
+            tMapCircle.setLineColor(Color.BLUE);
+            tMapCircle.setAreaColor(Color.GRAY);
+            tMapCircle.setAreaAlpha(100);
+            tMapView.addTMapCircle("myCircle", tMapCircle);
+        }
+        else {
+            TMapCircle tMapCircle = tMapView.getCircleFromID("myCircle");
+            tMapCircle.setCenterPoint(myPoint);
+        }
+    }
+
+    // 뷰, 원의 크기 입력시 원 사이즈 변경
+    public void changeCircleSize(TMapView tMapView, int CircleSize) {
+        if(tMapView.getCircleFromID("myCircle")==null) {}
+        else {
+            TMapCircle tMapCircle = tMapView.getCircleFromID("myCircle");
+            tMapCircle.setRadius(CircleSize);
+        }
+    }
+
 
     public void addPoint() //m_mapPoint List에 출력하고자 하는 위치들 추가
     {
@@ -300,7 +354,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         tmapview.removeAllMarkerItem();
     }
 
-    //이미지 리사이즈
+    //이미지 리사이즈, resizeBitmap(원본비트맵, 변경할 사이즈의 Width)
     static public Bitmap resizeBitmap(Bitmap original, int resizeWidth) {
 
         double aspectRatio = (double) original.getHeight() / (double) original.getWidth();

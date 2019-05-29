@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -8,6 +11,88 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="onMapScreenTouched"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
+
     </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBarAround"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="50dp"
+        android:clickable="true"
+        android:max="3"
+        android:progress="2"
+        app:layout_constraintBottom_toBottomOf="@+id/mapView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tickMarkTint="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/text500m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="52dp"
+        android:text="500m"
+        android:textColor="@android:color/background_dark"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarAround"
+        app:layout_constraintEnd_toEndOf="@+id/seekBarAround" />
+
+    <TextView
+        android:id="@+id/text1km"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="1km"
+        android:textColor="@android:color/background_dark"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarAround"
+        app:layout_constraintEnd_toEndOf="@+id/seekBarAround" />
+
+    <TextView
+        android:id="@+id/text200m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:text="200m"
+        android:textColor="@android:color/background_dark"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarAround"
+        app:layout_constraintStart_toStartOf="@+id/seekBarAround" />
+
+    <TextView
+        android:id="@+id/text0m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="0m"
+        android:textColor="@android:color/background_dark"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarAround"
+        app:layout_constraintStart_toStartOf="@+id/seekBarAround" />
+
+    <TextView
+        android:id="@+id/textAround"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="반경"
+        android:textColor="@android:color/background_dark"
+        app:layout_constraintEnd_toStartOf="@+id/seekBarAround"
+        app:layout_constraintTop_toTopOf="@+id/seekBarAround" />
+
+    <ImageView
+        android:id="@+id/fullscreenButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="TODO"
+        android:onClick="onMapScreenTouched"
+        android:src="@drawable/fullscreen_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

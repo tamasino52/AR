@@ -5,7 +5,7 @@ import android.content.Context;
 public class DataManager {
     //모든 센서값의 데이터를 저장하는 클래스
 
-    int roundingConst=10;
+    int roundingConst=7;
     double accX=0, accY=0, accZ=0;
     double angleXZ=0, angleYZ=0;
     double historicAngleXZ[], historicAngleYZ[];
@@ -16,12 +16,17 @@ public class DataManager {
     double pitch=0, law=0, roll=0;
     double siteXZ=0, siteYZ=0;
     double sitePitch=0, siteRoll=0;
+    int heading=0;
 
     int count=0;
 
     DataManager(Context context) {
         historicAngleXZ= new double[roundingConst];
         historicAngleYZ= new double[roundingConst];
+    }
+
+    public void setHeading(int heading) {
+        this.heading = heading;
     }
 
     public void setSiteXZYZ(double siteXZ, double siteYZ) {
@@ -79,19 +84,19 @@ public class DataManager {
 
 
 
-    // 보정을 위해 가속도센서값 roundingConst개의 평균값으로 이미지의 좌표를 출력
+    // 가속도센서값 roundingConst개를 취합해 가중치를 부여하여 선형 보간처리
     public double getHistoricAngleXZ() {
         double temp =0;
-        for(int i=0; i<roundingConst; i++) {
-            temp += historicAngleXZ[i];
+        for(int i=count; i<roundingConst+count; i++) {
+            temp += historicAngleXZ[i%roundingConst];
         }
         return temp/roundingConst;
     }
-    // 보정을 위해 가속도센서값 roundingConst개의 평균값으로 이미지의 좌표를 출력
+    // 가속도센서값 roundingConst개를 취합해 가중치를 부여하여 선형 보간처리
     public double getHistoricAngleYZ() {
         double temp =0;
-        for(int i=0; i<roundingConst; i++) {
-            temp += historicAngleYZ[i];
+        for(int i=count; i<roundingConst+count; i++) {
+            temp += historicAngleYZ[i%roundingConst];
         }
         return temp/roundingConst;
     }

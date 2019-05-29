@@ -1,4 +1,4 @@
-package com.example.tmapapi2;
+package org.techtown.ar;
 
 public class MapPoint {
     private String Name;

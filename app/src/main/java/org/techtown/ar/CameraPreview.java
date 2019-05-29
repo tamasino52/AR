@@ -2,9 +2,19 @@ package org.techtown.ar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.hardware.Camera;
+import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.ImageView;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -15,13 +25,14 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     SurfaceHolder mCameraHolder;
     Camera mCamera;
     SurfaceView mCameraView;
+    ImageView imageView;
 
     public CameraPreview(Context context) {
         super(context);
         mCameraView=((Activity) context).findViewById(R.id.cameraView);
+        imageView = ((Activity) context).findViewById(R.id.visualPointer);
         init();
     }
-
 
     private void init(){
         mCamera = Camera.open();
@@ -31,6 +42,13 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
         mCameraHolder = mCameraView.getHolder();
         mCameraHolder.addCallback(this);
         mCameraHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
     }
 
     // surfaceholder 와 관련된 구현 내용
@@ -43,6 +61,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
             }
         } catch (IOException e) {
         }
+
     }
 
     @Override
@@ -74,6 +93,7 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
             mCamera.startPreview();
         } catch (Exception e) {
         }
+
     }
 
     @Override
@@ -84,7 +104,5 @@ class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
             mCamera = null;
         }
     }
-
-
 
 }

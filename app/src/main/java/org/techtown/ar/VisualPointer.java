@@ -1,6 +1,7 @@
 package org.techtown.ar;
 import android.app.Activity;
 import android.content.Context;
+import android.view.Surface;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,15 +39,15 @@ public class VisualPointer {
     // 계산된 시야각에 따라서 실제 이미지의 위치를 변경하는 함수
     public void movePointOffset(double X, double Y) {
         if (X>0) {
-            imageView.setLeft((int) X+centerX);
+            imageView.setX((float) X+centerX);
         } else {
-            imageView.setLeft((int) X+centerX);
+            imageView.setX((float) X+centerX);
         }
 
         if (Y>0) {
-            imageView.setTop((int) Y+centerY);
+            imageView.setY((float) Y+centerY);
         } else {
-            imageView.setTop((int) Y+centerY);
+            imageView.setY((float) Y+centerY);
         }
     }
 

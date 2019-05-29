@@ -5,25 +5,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.os.Handler;
+import android.widget.ImageView;
 
 public class CameraActivity extends Activity {
-    //AR기능을 담당하는 액티비티
+    //AR기능을 담당하는 액티비티s
+    public CameraPreview cameraPreview;
+    public DataManager dataManager;
+    public VisualPointer visualPointer;
+    public GPSLocation gpsLocation;
+    public Accelerometer accelerometer;
+    public Gyroscoper gyroscoper;
+    public Magnetic magnetic;
 
-    CameraPreview cameraPreview;
-    DataManager dataManager;
-    VisualPointer visualPointer;
-    GPSLocation gpsLocation;
-    Accelerometer accelerometer;
-    Gyroscoper gyroscoper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_camera);
-
-        setAllSensor();
         cameraPreview = new CameraPreview(this);
+        ImageView imageView = (ImageView) findViewById(R.id.visualPointer);
+        imageView.bringToFront();
+        setAllSensor();
         doFullScreen();
+
     }
 
     @Override
@@ -33,6 +37,7 @@ public class CameraActivity extends Activity {
     }
 
     public void onCameraScreenTouched(View v) {
+
         // 2초간 멈추게 하고싶다면
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -70,14 +75,18 @@ public class CameraActivity extends Activity {
         gpsLocation= new GPSLocation(this);
         accelerometer = new Accelerometer(this);
         gyroscoper = new Gyroscoper(this);
+        magnetic = new Magnetic(this);
 
 
         gpsLocation.setDataManager(dataManager);
         accelerometer.setDataManager(dataManager);
         gyroscoper.setDataManager(dataManager);
+        magnetic.setDataManager(dataManager);
 
         gpsLocation.setVisualPointer(visualPointer);
         accelerometer.setVisualPointer(visualPointer);
         gyroscoper.setVisualPointer(visualPointer);
+
+
     }
 }

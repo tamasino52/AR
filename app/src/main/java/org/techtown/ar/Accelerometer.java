@@ -62,16 +62,22 @@ public class Accelerometer {
             angleXZ = Math.atan2(accX,accZ) * 180/Math.PI;
             angleYZ = Math.atan2(accY,accZ) * 180/Math.PI;
             //디버그 콘솔에서 센서 값을 알 수 있도록 설정
-            outputConsole.setText(String.format("ACCELEROMETER\n[X]:%.4f\n[Y]:%.4f\n[Z]:%.4f\n[angleXZ]:%.4f\n[angleYZ]:%.4f\n[constD]:%.2f",accX,accY,accZ,angleXZ,angleYZ,dataManager.getAccConst()));
             dataManager.setAccXYZ(accX,accY,accZ);
             dataManager.setAngle(angleXZ,angleYZ);
 
+            //디버그 콘솔에 세부 센서값 출력
+            outputConsole.setText("ACCELEROMETER\n[X]:" + String.format("%.4f", dataManager.getAccX())
+                    + "\n[Y]:" + String.format("%.4f", dataManager.getAccY())
+                    + "\n[Z]:" + String.format("%.4f", dataManager.getAccZ())
+                    + "\n[angleXZ]: " + String.format("%.1f", dataManager.getAngleXZ())
+                    + "\n[angleYZ]: " + String.format("%.1f", dataManager.getAngleYZ())
+                    + "\n[constD]: " + String.format("%.1f", dataManager.getAccConst())
+            );
             visualPointer.pointToSite();
         }
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
         }
     }
 

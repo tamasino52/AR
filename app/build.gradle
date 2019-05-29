@@ -34,5 +34,4 @@ dependencies {
     implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.6.0'
     // Alternatively, use ArSceneView without the UX dependency.
     implementation 'com.google.ar.sceneform:core:1.6.0'
-    implementation files('C:/Users/Min-seok/AR/lib/libs/com.skt.Tmap_1.60.jar')
 }

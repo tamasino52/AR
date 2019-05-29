@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.NodeList;
 
+import java.io.FileNotFoundException;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -279,8 +281,8 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
     public void showMarkerPoint() //배열에 저장된 Point들의 위치를 지도 위에 찍어주는 함수
     {
         Bitmap bitmap = null;
-        bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.place); //Marker 위에 표현할 bitmap 이미지 지정
-
+        bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.statue_place); //Marker 위에 표현할 bitmap 이미지 지정
+        bitmap = resizeBitmap(bitmap,250);
         for (int i = 0; i < m_mapPoint.size(); i++) {
             TMapPoint point = new TMapPoint(m_mapPoint.get(i).getLatitude(), m_mapPoint.get(i).getLongitude());
             TMapMarkerItem markerItem1 = new TMapMarkerItem();
@@ -297,6 +299,19 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
     {
         tmapview.removeAllMarkerItem();
     }
+
+    //이미지 리사이즈
+    static public Bitmap resizeBitmap(Bitmap original, int resizeWidth) {
+
+        double aspectRatio = (double) original.getHeight() / (double) original.getWidth();
+        int targetHeight = (int) (resizeWidth * aspectRatio);
+        Bitmap result = Bitmap.createScaledBitmap(original, resizeWidth, targetHeight, false);
+        if (result != original) {
+            original.recycle();
+        }
+        return result;
+    }
+
 }
 
 

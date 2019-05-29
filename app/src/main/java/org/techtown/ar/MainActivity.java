@@ -1,6 +1,7 @@
 package org.techtown.ar;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,8 +9,11 @@ import android.view.Window;
 
 public class MainActivity extends AppCompatActivity {
 
+    DataManager dataManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        dataManager = new DataManager(this);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);

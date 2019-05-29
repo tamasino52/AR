@@ -78,11 +78,12 @@
             android:id="@+id/headingInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="TextView"
             android:textColor="@android:color/holo_purple"
-            app:layout_constraintTop_toBottomOf="@+id/GyroInfo"
-            tools:layout_editor_absoluteX="8dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/GyroInfo" />
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
@@ -94,7 +95,7 @@
             android:id="@+id/visualPointer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@drawable/arrow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

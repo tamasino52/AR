@@ -37,7 +37,9 @@ public class GPSLocation {
                 double longitude = location.getLongitude();    //경도
                 double latitude = location.getLatitude();         //위도
                 float accuracy = location.getAccuracy();        //신뢰도
-                textView.setText("longitude:"+ longitude +"\nlatitude:"+latitude+"\naccuracy:"+accuracy+"\nState:Network");
+                if(textView!=null) {
+                    textView.setText("longitude:"+ longitude +"\nlatitude:"+latitude+"\naccuracy:"+accuracy+"\nState:Network");
+                }
             }
         }
         @Override

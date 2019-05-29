@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -90,6 +92,8 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
     private ArrayList<String> mArrayMakerID = new ArrayList<String>();
     private ArrayList<MapPoint> m_mapPoint = new ArrayList<MapPoint>();
 
+    public DataManager dataManager;
+
     //Tmap API를 주로 다루게 될 API
     @Override
     public void onLocationChange(Location location) //위치가 변했을 때
@@ -99,12 +103,40 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         }
     }
 
+    public void setDataManager(DataManager dataManager) {
+        this.dataManager = dataManager;
+    }
+
+    //화면을 터치하면 소프트키가 2초간 등장했다가 다시 사라짐
+    public void onMapScreenTouched(View v) {
+        // 2초간 멈추게 하고싶다면
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                doFullScreen();
+            }
+        }, 2000);
+    }
+
+    // 현재 화면을 전체화면으로 전환해주는 함수
+    private void doFullScreen() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE |
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                        View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_tmap);
+        doFullScreen();
 
         mContext = this;
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mapView);
@@ -112,7 +144,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         linearLayout.addView(tmapview);
         tmapview.setSKTMapApiKey(mApikey);
 
-        tmapview.setCompassMode(true);
+        tmapview.setCompassMode(false);
         tmapview.setIconVisibility(true);
 
         tmapview.setZoomLevel(15);
@@ -128,19 +160,12 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         tmapview.setTrackingMode(true);
         tmapview.setSightVisible(true);
 
-        TextView textView1 = (TextView) findViewById(R.id.textView1);
-
-
         addPoint();
         showMarkerPoint();
 
         TMapPoint myPoint = new TMapPoint(tmapview.getLatitude(), tmapview.getLongitude());
         TMapPoint searchPoint = new TMapPoint(37.512159, 126.925482);//경로 탐색 실행
-        searchRoute(searchPoint);
-        //getXml(myPoint, searchPoint);
-        showTurnType(myPoint, searchPoint);
 
-        deleteMarkerPoint();
     }
 
     public void addPoint() //m_mapPoint List에 출력하고자 하는 위치들 추가
@@ -149,6 +174,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         m_mapPoint.add(new MapPoint("서초구 소녀상", 37.489611957223715, 127.0053777974778));
         m_mapPoint.add(new MapPoint("강남", 37.510350, 127.066847));
         m_mapPoint.add(new MapPoint("부천 안중근 공원", 37.504412, 126.759060));
+        m_mapPoint.add(new MapPoint("창의관", 37.4947909, 126.9594342));
     }
 
 
@@ -252,7 +278,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
     public void showMarkerPoint() //배열에 저장된 Point들의 위치를 지도 위에 찍어주는 함수
     {
         Bitmap bitmap = null;
-        bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.arrow); //Marker 위에 표현할 bitmap 이미지 지정
+        bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.place); //Marker 위에 표현할 bitmap 이미지 지정
 
         for (int i = 0; i < m_mapPoint.size(); i++) {
             TMapPoint point = new TMapPoint(m_mapPoint.get(i).getLatitude(), m_mapPoint.get(i).getLongitude());

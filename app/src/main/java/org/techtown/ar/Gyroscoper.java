@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.provider.ContactsContract;
 import android.widget.TextView;
+import android.hardware.GeomagneticField;
 
 
 public class Gyroscoper {
@@ -106,4 +107,6 @@ public class Gyroscoper {
 
         }
     }
+
+
 }

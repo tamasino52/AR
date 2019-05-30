@@ -2,10 +2,17 @@ package org.techtown.ar;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CameraActivity extends Activity {
     //AR기능을 담당하는 액티비티s
@@ -15,8 +22,10 @@ public class CameraActivity extends Activity {
     public GPSLocation gpsLocation;
     public Accelerometer accelerometer;
     public Gyroscoper gyroscoper;
-    public Magnetic magnetic;
 
+
+    //일정시간마다 방위각을 기준으로 각속도 오프셋 수정
+    Timer mLongPressTimer = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +36,25 @@ public class CameraActivity extends Activity {
         imageView.bringToFront();
         setAllSensor();
         doFullScreen();
+        compassCreate();
 
+        dataManager.setDestinationGPS(37.4947909, 126.9594342);
+
+        mLongPressTimer = new Timer();
+        TimerTask t = new TimerTask()
+        {
+            public void run()
+            {
+                // 메소드 호출 또는 동작 정의
+                double currentPitch = dataManager.getPitch();
+                double locationBearing = dataManager.getBearing();
+                double machineBearing = dataManager.heading;
+                currentPitch = currentPitch + Math.toRadians(machineBearing - locationBearing);
+                dataManager.setSitePitch(currentPitch);
+            }
+        };
+
+        mLongPressTimer.schedule(t, 0, 10000);
     }
 
     @Override
@@ -68,7 +95,8 @@ public class CameraActivity extends Activity {
         visualPointer.setDataManager(dataManager);
 
         dataManager.setSiteXZYZ(0,50);
-        dataManager.setSitePR(-1.2,0.1);
+        dataManager.setSitePitch(-1.2);
+        dataManager.setSiteRoll(0.1);
         dataManager.setAccConst((double) 2000);
         dataManager.setGyroConst((double) 1900);
 
@@ -76,18 +104,85 @@ public class CameraActivity extends Activity {
         gpsLocation= new GPSLocation(this);
         accelerometer = new Accelerometer(this);
         gyroscoper = new Gyroscoper(this);
-        magnetic = new Magnetic(this);
+
 
 
         gpsLocation.setDataManager(dataManager);
         accelerometer.setDataManager(dataManager);
         gyroscoper.setDataManager(dataManager);
-        magnetic.setDataManager(dataManager);
+
 
         gpsLocation.setVisualPointer(visualPointer);
         accelerometer.setVisualPointer(visualPointer);
         gyroscoper.setVisualPointer(visualPointer);
 
-
     }
+
+    // 나침반기능 코드
+    private static final String TAG = "CompassActivity";
+
+    private Compass compass;
+    private ImageView arrowView;
+    private TextView sotwLabel;  // SOTW is for "side of the world"
+
+    private float currentAzimuth;
+    private SOTWFormatter sotwFormatter;
+
+    public void compassCreate() {
+        sotwFormatter = new SOTWFormatter(this);
+        arrowView = (ImageView) findViewById(R.id.compassHand);
+        setupCompass();
+        compass.start();
+        sotwLabel = (TextView) findViewById(R.id.compassInfo);
+    }
+    private void setupCompass() {
+        compass = new Compass(this);
+        Compass.CompassListener cl = getCompassListener();
+        compass.setListener(cl);
+    }
+
+    private void adjustArrow(float azimuth) {
+        Log.d(TAG, "will set rotation from " + currentAzimuth + " to "
+                + azimuth);
+
+        Animation an = new RotateAnimation(-currentAzimuth, -azimuth,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        currentAzimuth = azimuth;
+
+        an.setDuration(500);
+        an.setRepeatCount(0);
+        an.setFillAfter(true);
+
+        arrowView.startAnimation(an);
+    }
+
+    private void adjustSotwLabel(float azimuth) {
+        sotwLabel.setText(sotwFormatter.format(azimuth));
+    }
+
+    private Compass.CompassListener getCompassListener() {
+        return new Compass.CompassListener() {
+            @Override
+            public void onNewAzimuth(final float azimuth) {
+                // UI updates only in UI thread
+                // https://stackoverflow.com/q/11140285/444966
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adjustArrow(azimuth);
+                        adjustSotwLabel(azimuth);
+                        dataManager.setHeading(azimuth);
+                    }
+                });
+            }
+        };
+    }
+
+
+
+
+
+
+
 }

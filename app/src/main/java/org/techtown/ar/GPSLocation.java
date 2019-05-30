@@ -4,6 +4,7 @@ package org.techtown.ar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.GeomagneticField;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -29,7 +30,14 @@ public class GPSLocation {
                 double longitude = location.getLongitude();    //경도
                 double latitude = location.getLatitude();         //위도
                 float accuracy = location.getAccuracy();        //신뢰도
-                textView.setText("longitude:"+ longitude +"\nlatitude:"+latitude+"\naccuracy:"+accuracy+"\nState:GPS");
+                textView.setText(
+                        "longitude:"+ longitude
+                                +"\nlatitude:"+latitude
+                                +"\naccuracy:"+accuracy
+                                +"\nState:GPS"
+                                + "\nMDirection: " + String.format("%.4f",
+                                location.getBearing()));
+                dataManager.setHeading(location.getBearing());
             }
             else {
                 //Network 위치제공자에 의한 위치변화
@@ -38,8 +46,14 @@ public class GPSLocation {
                 double latitude = location.getLatitude();         //위도
                 float accuracy = location.getAccuracy();        //신뢰도
                 if(textView!=null) {
-                    textView.setText("longitude:"+ longitude +"\nlatitude:"+latitude+"\naccuracy:"+accuracy+"\nState:Network");
+                    textView.setText("longitude:"+ longitude
+                            +"\nlatitude:"+latitude
+                            +"\naccuracy:"+accuracy
+                            +"\nState:Network"
+                            +"\nMDirection: " + String.format("%.4f",
+                            location.getBearing()));
                 }
+                dataManager.setHeading(location.getBearing());
             }
         }
         @Override
@@ -81,9 +95,8 @@ public class GPSLocation {
                 500, 1, mLocationListener);
 
 
+
     }
-
-
 
     public void setDataManager(DataManager dataManager) {
         this.dataManager = dataManager;

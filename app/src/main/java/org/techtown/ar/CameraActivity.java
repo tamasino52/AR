@@ -23,7 +23,6 @@ public class CameraActivity extends Activity {
     public Accelerometer accelerometer;
     public Gyroscoper gyroscoper;
 
-
     //일정시간마다 방위각을 기준으로 각속도 오프셋 수정
     Timer mLongPressTimer = null;
     @Override
@@ -49,11 +48,10 @@ public class CameraActivity extends Activity {
                 double currentPitch = dataManager.getPitch();
                 double locationBearing = dataManager.getBearing();
                 double machineBearing = dataManager.heading;
-                currentPitch = currentPitch + Math.toRadians(machineBearing - locationBearing);
-                dataManager.setSitePitch(currentPitch);
+                currentPitch = Math.toRadians(locationBearing - machineBearing);
+                dataManager.setSitePitch(currentPitch - dataManager.getPitch());
             }
         };
-
         mLongPressTimer.schedule(t, 0, 10000);
     }
 
@@ -65,7 +63,6 @@ public class CameraActivity extends Activity {
 
 
     public void onCameraScreenTouched(View v) {
-
         // 2초간 멈추게 하고싶다면
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -100,17 +97,13 @@ public class CameraActivity extends Activity {
         dataManager.setAccConst((double) 2000);
         dataManager.setGyroConst((double) 1900);
 
-
         gpsLocation= new GPSLocation(this);
         accelerometer = new Accelerometer(this);
         gyroscoper = new Gyroscoper(this);
 
-
-
         gpsLocation.setDataManager(dataManager);
         accelerometer.setDataManager(dataManager);
         gyroscoper.setDataManager(dataManager);
-
 
         gpsLocation.setVisualPointer(visualPointer);
         accelerometer.setVisualPointer(visualPointer);
@@ -144,10 +137,8 @@ public class CameraActivity extends Activity {
     private void adjustArrow(float azimuth) {
         Log.d(TAG, "will set rotation from " + currentAzimuth + " to "
                 + azimuth);
-
         Animation an = new RotateAnimation(-currentAzimuth, -azimuth,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-                0.5f);
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         currentAzimuth = azimuth;
 
         an.setDuration(500);

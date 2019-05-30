@@ -39,6 +39,10 @@ public class DataManager {
     public void setDestinationGPS(double longitude, double latitude) {
         this.destGPSlatitude = latitude;
         this.destGPSlongitude = longitude;
+        myLocation.setLatitude(GPSlatitude);
+        myLocation.setLongitude(GPSlongitude);
+        destLocation.setLatitude(destGPSlatitude);
+        destLocation.setLongitude(destGPSlongitude);
         isDestinationExist = true;
     }
 
@@ -64,6 +68,10 @@ public class DataManager {
     }
 
     public double getBearing() {
+        myLocation.setLatitude(GPSlatitude);
+        myLocation.setLongitude(GPSlongitude);
+        destLocation.setLatitude(destGPSlatitude);
+        destLocation.setLongitude(destGPSlongitude);
         return bearing2place(myLocation,destLocation);
     }
 
@@ -112,11 +120,6 @@ public class DataManager {
         this.siteXZ = siteXZ;
         this.siteYZ = siteYZ;
     }
-
-    public void setSiteYaw(double Yaw) {
-        this.siteYaw = Yaw;
-    }
-
 
     public double getSitePitch() {
         return sitePitch;

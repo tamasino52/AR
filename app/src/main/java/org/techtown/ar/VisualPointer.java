@@ -35,6 +35,14 @@ public class VisualPointer {
         double dXZ = dataManager.getGyroConst()*Math.sin(Math.PI*(dataManager.getPitch()-dataManager.getSitePitch())/180);
         double dYZ = dataManager.getAccConst()*Math.sin(Math.PI*(dataManager.getAngleYZ()-dataManager.getSiteYZ())/180);
         movePointOffset(dXZ,dYZ);
+
+        ((TextView)((Activity) context).findViewById(R.id.headingInfo)).setText(
+                String.format(
+                        "Pitch : " + dataManager.getPitch() +
+                        "\nSitePitch : " + dataManager.getSitePitch() +
+                                "\nlocaitonBearing : " + dataManager.getBearing() +
+                                "\nBearing : " + dataManager.heading
+                ));
     }
     // 계산된 시야각에 따라서 실제 이미지의 위치를 변경하는 함수
     public void movePointOffset(double X, double Y) {

@@ -37,7 +37,6 @@ public class GPSLocation {
                                 +"\nState:GPS"
                                 + "\nMDirection: " + String.format("%.4f",
                                 location.getBearing()));
-                dataManager.setHeading(location.getBearing());
             }
             else {
                 //Network 위치제공자에 의한 위치변화
@@ -53,7 +52,6 @@ public class GPSLocation {
                             +"\nMDirection: " + String.format("%.4f",
                             location.getBearing()));
                 }
-                dataManager.setHeading(location.getBearing());
             }
         }
         @Override

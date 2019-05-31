@@ -22,7 +22,7 @@ public class CameraActivity extends Activity {
     public GPSLocation gpsLocation;
     public Accelerometer accelerometer;
     public Gyroscoper gyroscoper;
-
+    TextView headingInfo;
     //일정시간마다 방위각을 기준으로 각속도 오프셋 수정
     Timer mLongPressTimer = null;
     @Override
@@ -36,7 +36,6 @@ public class CameraActivity extends Activity {
         setAllSensor();
         doFullScreen();
         compassCreate();
-
         dataManager.setDestinationGPS(37.4947909, 126.9594342);
 
         mLongPressTimer = new Timer();
@@ -48,11 +47,14 @@ public class CameraActivity extends Activity {
                 double currentPitch = dataManager.getPitch();
                 double locationBearing = dataManager.getBearing();
                 double machineBearing = dataManager.heading;
-                currentPitch = Math.toRadians(locationBearing - machineBearing);
-                dataManager.setSitePitch(currentPitch - dataManager.getPitch());
+                if(Math.abs(machineBearing - locationBearing)<10 && Math.abs(currentPitch - dataManager.getSitePitch())>10) {
+                    dataManager.setSitePitch(currentPitch);
+                }
+
+
             }
         };
-        mLongPressTimer.schedule(t, 0, 10000);
+        mLongPressTimer.schedule(t, 0, 5000);
     }
 
     @Override
@@ -135,8 +137,7 @@ public class CameraActivity extends Activity {
     }
 
     private void adjustArrow(float azimuth) {
-        Log.d(TAG, "will set rotation from " + currentAzimuth + " to "
-                + azimuth);
+        //Log.d(TAG, "will set rotation from " + currentAzimuth + " to "+ azimuth);
         Animation an = new RotateAnimation(-currentAzimuth, -azimuth,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         currentAzimuth = azimuth;

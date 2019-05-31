@@ -74,17 +74,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/GPSInfo" />
 
-        <TextView
-            android:id="@+id/headingInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="TextView"
-            android:textColor="@android:color/holo_purple"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/GyroInfo" />
-
         <ImageView
             android:id="@+id/compassGround"
             android:layout_width="77dp"
@@ -113,6 +102,28 @@
             app:layout_constraintEnd_toEndOf="@+id/compassGround"
             app:layout_constraintStart_toStartOf="@+id/compassGround"
             app:layout_constraintTop_toBottomOf="@+id/compassGround" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="83dp"
+            android:layout_height="84dp"
+            android:layout_marginBottom="8dp"
+            android:max="1000"
+            android:progress="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/distanceInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="남은거리"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+            app:layout_constraintEnd_toEndOf="@+id/progressBar"
+            app:layout_constraintStart_toStartOf="@+id/progressBar"
+            app:layout_constraintTop_toTopOf="@+id/progressBar" />
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout

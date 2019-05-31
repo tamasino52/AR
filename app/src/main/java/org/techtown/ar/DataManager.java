@@ -2,6 +2,7 @@ package org.techtown.ar;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,7 +37,7 @@ public class DataManager {
     public boolean isDestinationExist() {
         return isDestinationExist;
     }
-    public void setDestinationGPS(double longitude, double latitude) {
+    public void setDestinationGPS(double latitude, double longitude) {
         this.destGPSlatitude = latitude;
         this.destGPSlongitude = longitude;
         myLocation.setLatitude(GPSlatitude);
@@ -64,6 +65,7 @@ public class DataManager {
         myLocation.setLongitude(GPSlongitude);
         destLocation.setLatitude(destGPSlatitude);
         destLocation.setLongitude(destGPSlongitude);
+        Log.d("Distance", "myLocation : "+ GPSlatitude + ", "+ GPSlongitude + " / Destination : "+ destGPSlatitude + ", "+ destGPSlongitude);
         return myLocation.distanceTo(destLocation);
     }
 

@@ -17,7 +17,7 @@ public class GPSLocation {
     //GPS좌표를 받아와 갱신하는 클래스
     public LocationManager locationManager;
     public Location location;
-    public TextView textView;
+    public TextView textView, distanceInfo;
     public DataManager dataManager;
     public VisualPointer visualPointer;
     final LocationListener mLocationListener = new LocationListener() {
@@ -37,6 +37,7 @@ public class GPSLocation {
                                 +"\nState:GPS"
                                 + "\nMDirection: " + String.format("%.4f",
                                 location.getBearing()));
+                dataManager.setGPS(longitude,latitude,accuracy);
             }
             else {
                 //Network 위치제공자에 의한 위치변화
@@ -51,6 +52,15 @@ public class GPSLocation {
                             +"\nState:Network"
                             +"\nMDirection: " + String.format("%.4f",
                             location.getBearing()));
+                    dataManager.setGPS(longitude,latitude,accuracy);
+                }
+                //남은 거리 표시
+                if(distanceInfo != null) {
+                    if (dataManager.isDestinationExist()) {
+                        distanceInfo.setText((int)dataManager.howFarFromDest()+"m");
+                    } else {
+                        distanceInfo.setText("남은거리");
+                    }
                 }
             }
         }
@@ -70,6 +80,7 @@ public class GPSLocation {
 
     public GPSLocation(Context context) {
         textView = ((Activity) context).findViewById(R.id.GPSInfo);
+        distanceInfo = ((Activity) context).findViewById(R.id.distanceInfo);
         //Permission Check part
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

@@ -13,7 +13,7 @@
         android:onClick="onMapScreenTouched"
         android:orientation="vertical"
         android:visibility="visible"
-        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteX="-4dp"
         tools:layout_editor_absoluteY="0dp">
 
     </LinearLayout>
@@ -94,5 +94,17 @@
         android:src="@drawable/fullscreen_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/myLocationButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="TODO"
+        android:onClick="onMyLocationButtonClicked"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_my_location_black_24dp" />
 
 </android.support.constraint.ConstraintLayout>

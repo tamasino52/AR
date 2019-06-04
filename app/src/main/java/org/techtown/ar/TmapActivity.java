@@ -119,7 +119,12 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         doFullScreen();
     }
 
-    // 현재 화면을 전체화면으로 전환해주는 함수
+    //내 위치 버튼 눌렀을 때 실행
+    public void onMyLocationButtonClicked(View v) {
+        tmapview.setCenterPoint(tmapview.get,tmapview.getLatitude());
+        tmapview.invalidate();
+    }
+
     private void doFullScreen() {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
@@ -213,6 +218,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
             TMapCircle tMapCircle = tMapView.getCircleFromID("myCircle");
             tMapCircle.setCenterPoint(myPoint);
         }
+        tmapview.invalidate();
     }
 
     // 뷰, 원의 크기 입력시 원 사이즈 변경
@@ -222,6 +228,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
             TMapCircle tMapCircle = tMapView.getCircleFromID("myCircle");
             tMapCircle.setRadius(CircleSize);
         }
+        tmapview.invalidate();
     }
 
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PointF;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import org.techtown.ar.*;
 import org.w3c.dom.NodeList;
 
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -54,6 +56,7 @@ import android.graphics.Color;
 import com.skt.Tmap.TMapCircle;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
@@ -103,41 +106,6 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
 
     public GPSLocation gpsLocation;
 
-    //Tmap API를 주로 다루게 될 API
-    @Override
-    public void onLocationChange(Location location) //위치가 변했을 때
-    {
-        if (m_bTrackingMode) {
-            tmapview.setLocationPoint(location.getLongitude(), location.getLatitude());
-            drawCirclePoint(tmapview,new TMapPoint(location.getLatitude(),location.getLongitude()),300);
-        }
-    }
-
-    public void setDataManager(DataManager dataManager) {
-        this.dataManager = dataManager;
-    }
-
-    //화면을 터치하면 소프트키가 2초간 등장했다가 다시 사라짐
-    public void onMapScreenTouched(View v) {
-        doFullScreen();
-    }
-
-    //내 위치 버튼 눌렀을 때 실행
-    public void onMyLocationButtonClicked(View v) {
-        tmapview.setCenterPoint(tmapgps.getLocation().getLongitude(),tmapgps.getLocation().getLatitude());
-        tmapview.invalidate();
-    }
-
-    private void doFullScreen() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE |
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                        View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,17 +167,79 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
 
         addPoint();
         showMarkerPoint();
+        tmapview.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
+            @Override
+            public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                return false;
+            }
+
+            @Override
+            public boolean onPressUpEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                // 마커를 클릭시 도착경로로 지정
+                TMapPoint myPoint = new TMapPoint(tmapview.getLongitude(), tmapview.getLatitude());
+
+                for (TMapMarkerItem item : arrayList) {
+                    try {
+                        TMapPolyLine polyLine = new TMapData().findPathData(myPoint, item.getTMapPoint());
+                        tmapview.addTMapPath(polyLine);
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(),"ERROR URL", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                return false;
+            }
+        });
 
 
         //TMapPoint myPoint = new TMapPoint(tmapview.getLatitude(), tmapview.getLongitude());
         TMapPoint myPoint = new TMapPoint(gpsLocation.location.getLatitude(), gpsLocation.location.getLongitude());
         TMapPoint searchPoint = new TMapPoint(37.512159, 126.925482);//경로 탐색 실행
-
-        searchRoute(myPoint, searchPoint);
         showTurnType(myPoint, searchPoint);
 
 
     }
+
+
+    //Tmap API를 주로 다루게 될 API
+    @Override
+    public void onLocationChange(Location location) //위치가 변했을 때
+    {
+        if (m_bTrackingMode) {
+            tmapview.setLocationPoint(location.getLongitude(), location.getLatitude());
+            drawCirclePoint(tmapview,new TMapPoint(location.getLatitude(),location.getLongitude()),300);
+        }
+    }
+
+    public void setDataManager(DataManager dataManager) {
+        this.dataManager = dataManager;
+    }
+
+    //화면을 터치하면 소프트키가 2초간 등장했다가 다시 사라짐
+    public void onMapScreenTouched(View v) {
+        doFullScreen();
+    }
+
+    //내 위치 버튼 눌렀을 때 실행
+    public void onMyLocationButtonClicked(View v) {
+        tmapview.setCenterPoint(tmapgps.getLocation().getLongitude(),tmapgps.getLocation().getLatitude());
+        tmapview.invalidate();
+    }
+
+    private void doFullScreen() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE |
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                        View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+
+
+
 
     // 뷰, 위치, 원의 크기를 입력하면 해당 위치에 원을 그려줌
     public void drawCirclePoint(TMapView tMapView, TMapPoint myPoint, int CircleSize) {
@@ -316,16 +346,14 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
 
     public void searchRoute(TMapPoint start, TMapPoint end) { //TMap 위에 경로를 탐색한 경로 Poly line 그리는 함수
         try {
-            new TMapData().findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataListenerCallback() {
+            TMapData tMapData = new TMapData();
+            tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataListenerCallback() {
                 @Override
                 public void onFindPathData(TMapPolyLine tMapPolyLine) {
                     tmapview.addTMapPath(tMapPolyLine);
                 }
             });
         }
-        //tMapPolyLine.setLineColor(Color.BLUE);
-        //  tMapPolyLine.setLineWidth(2);
-        //   tmapview.addTMapPolyLine("line", tMapPolyLine);
         catch (Exception e) {
             e.printStackTrace();
         }

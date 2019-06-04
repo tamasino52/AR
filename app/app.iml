@@ -182,5 +182,7 @@
     <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout-solver:2.0.0-beta1@jar" level="project" />
     <orderEntry type="module" module-name="arcore-location" />
     <orderEntry type="module" module-name="com.skt.Tmap_1.60" />
+    <orderEntry type="module" module-name="arcore-location" />
+    <orderEntry type="module" module-name="com.skt.Tmap_1.60" />
   </component>
 </module>

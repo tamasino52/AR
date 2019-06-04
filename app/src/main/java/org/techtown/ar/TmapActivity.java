@@ -1,4 +1,4 @@
-﻿package org.techtown.ar;
+package org.techtown.ar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -121,7 +121,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
 
     //내 위치 버튼 눌렀을 때 실행
     public void onMyLocationButtonClicked(View v) {
-        tmapview.setCenterPoint(tmapview.get,tmapview.getLatitude());
+
         tmapview.invalidate();
     }
 

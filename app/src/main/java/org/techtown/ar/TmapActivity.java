@@ -100,6 +100,9 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
     public DataManager dataManager;
     public SeekBar seekBarAround;
     public Integer turnType[] = {};
+
+    public GPSLocation gpsLocation;
+
     //Tmap API를 주로 다루게 될 API
     @Override
     public void onLocationChange(Location location) //위치가 변했을 때
@@ -121,7 +124,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
 
     //내 위치 버튼 눌렀을 때 실행
     public void onMyLocationButtonClicked(View v) {
-
+        tmapview.setCenterPoint(tmapgps.getLocation().getLongitude(),tmapgps.getLocation().getLatitude());
         tmapview.invalidate();
     }
 
@@ -192,7 +195,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         tmapview.setTrackingMode(true);
         tmapview.setSightVisible(true);
 
-        GPSLocation gpsLocation = new GPSLocation(mContext);
+        gpsLocation = new GPSLocation(mContext);
 
         addPoint();
         showMarkerPoint();

@@ -30,14 +30,18 @@ public class GPSLocation {
                 double longitude = location.getLongitude();    //경도
                 double latitude = location.getLatitude();         //위도
                 float accuracy = location.getAccuracy();        //신뢰도
-                textView.setText(
-                        "longitude:"+ longitude
-                                +"\nlatitude:"+latitude
-                                +"\naccuracy:"+accuracy
-                                +"\nState:GPS"
-                                + "\nMDirection: " + String.format("%.4f",
-                                location.getBearing()));
-                dataManager.setGPS(longitude,latitude,accuracy);
+                if(textView!=null) {
+                    textView.setText(
+                            "longitude:"+ longitude
+                                    +"\nlatitude:"+latitude
+                                    +"\naccuracy:"+accuracy
+                                    +"\nState:GPS"
+                                    + "\nMDirection: " + String.format("%.4f",
+                                    location.getBearing()));
+                    dataManager.setGPS(longitude,latitude,accuracy);
+
+                }
+
             }
             else {
                 //Network 위치제공자에 의한 위치변화

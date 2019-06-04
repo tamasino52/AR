@@ -1,6 +1,7 @@
 package org.techtown.ar;
 
 import android.app.Activity;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +12,15 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.ar.sceneform.ArSceneView;
+import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.rendering.ViewRenderable;
+
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CompletableFuture;
+
+import uk.co.appoly.arcorelocation.LocationScene;
 
 public class CameraActivity extends Activity {
     //AR기능을 담당하는 액티비티s
@@ -23,12 +31,20 @@ public class CameraActivity extends Activity {
     public Accelerometer accelerometer;
     public Gyroscoper gyroscoper;
     TextView headingInfo;
+    //위치지정 AR
+    private ArSceneView arSceneView;
+    private ModelRenderable foxrenderable;
+    private LocationScene locationScene;
     //일정시간마다 방위각을 기준으로 각속도 오프셋 수정
     Timer mLongPressTimer = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        arSceneView = findViewById(R.id.ar_scene_view);
+        //CompletableFuture<ModelRenderable> fox = ModelRenderable.builder()
+                //.setSource(this, ).build();
+
         setContentView(R.layout.activity_camera);
         cameraPreview = new CameraPreview(this);
         ImageView imageView = (ImageView) findViewById(R.id.visualPointer);

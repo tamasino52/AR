@@ -177,9 +177,8 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
 
             @Override
             public boolean onPressUpEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                // 마커를 클릭시 도착경로로 지정
+                // 마커를 클릭시 도착경로로 지정 tmapgps 통해서 내 좌표 받아오기
                 TMapPoint myPoint = new TMapPoint(tmapgps.getLocation().getLatitude(), tmapgps.getLocation().getLongitude());
-
                 for (TMapMarkerItem item : arrayList) {
                     try {
                         TMapPoint searchPoint = item.getTMapPoint();

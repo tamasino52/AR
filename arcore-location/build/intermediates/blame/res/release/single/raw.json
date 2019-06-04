@@ -1,0 +1,54 @@
+[
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_footprint.sfb",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\a47283576f6435b1b4833602cf73fbe4\\res\\raw\\sceneform_footprint.sfb"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\keep.xml",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\9ab4af7d1e868d4041aa72bf541f6740\\res\\raw\\keep.xml"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_opaque_textured_material.matc",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\7675518e0065e1c256d3be19285eb566\\res\\raw\\sceneform_opaque_textured_material.matc"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_view_renderable.sfb",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\7675518e0065e1c256d3be19285eb566\\res\\raw\\sceneform_view_renderable.sfb"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_plane_shadow_material.matc",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\7675518e0065e1c256d3be19285eb566\\res\\raw\\sceneform_plane_shadow_material.matc"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_camera_material.matc",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\7675518e0065e1c256d3be19285eb566\\res\\raw\\sceneform_camera_material.matc"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_transparent_colored_material.matc",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\7675518e0065e1c256d3be19285eb566\\res\\raw\\sceneform_transparent_colored_material.matc"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_opaque_colored_material.matc",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\7675518e0065e1c256d3be19285eb566\\res\\raw\\sceneform_opaque_colored_material.matc"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_face_mesh.sfb",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\a47283576f6435b1b4833602cf73fbe4\\res\\raw\\sceneform_face_mesh.sfb"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_default_light_probe.sfb",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\7675518e0065e1c256d3be19285eb566\\res\\raw\\sceneform_default_light_probe.sfb"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_transparent_textured_material.matc",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\7675518e0065e1c256d3be19285eb566\\res\\raw\\sceneform_transparent_textured_material.matc"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_face_mesh_occluder.sfb",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\a47283576f6435b1b4833602cf73fbe4\\res\\raw\\sceneform_face_mesh_occluder.sfb"
+    },
+    {
+        "merged": "C:\\Users\\YNB\\Desktop\\arcoreLocation\\arcore-location\\build\\intermediates\\res\\merged\\release\\raw\\sceneform_plane_material.matc",
+        "source": "C:\\Users\\YNB\\.gradle\\caches\\transforms-2\\files-2.1\\7675518e0065e1c256d3be19285eb566\\res\\raw\\sceneform_plane_material.matc"
+    }
+]

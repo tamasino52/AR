@@ -16,6 +16,15 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="0dp">
 
+        <Button
+            android:id="@+id/mypointButton"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:onClick="onMyPointTouched"
+            android:contentDescription="TODO"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="내 위치" />
     </LinearLayout>
 
     <SeekBar

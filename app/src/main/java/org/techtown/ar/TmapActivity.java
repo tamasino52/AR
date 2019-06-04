@@ -15,7 +15,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
+import org.techtown.ar.*;
 import org.w3c.dom.NodeList;
 
 import java.io.FileNotFoundException;
@@ -99,7 +99,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
 
     public DataManager dataManager;
     public SeekBar seekBarAround;
-
+    public Integer turnType[] = {};
     //Tmap API를 주로 다루게 될 API
     @Override
     public void onLocationChange(Location location) //위치가 변했을 때
@@ -117,6 +117,12 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
     //화면을 터치하면 소프트키가 2초간 등장했다가 다시 사라짐
     public void onMapScreenTouched(View v) {
         doFullScreen();
+    }
+
+
+    //버튼을 누를 시 화면을 현재 위치로 전환해주는 함수
+    public void onMyPointTouched(View v){
+        tmapview.setCenterPoint(tmapgps.getLocation().getLongitude(), tmapgps.getLocation().getLatitude());
     }
 
     // 현재 화면을 전체화면으로 전환해주는 함수
@@ -187,12 +193,18 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         tmapview.setTrackingMode(true);
         tmapview.setSightVisible(true);
 
+        GPSLocation gpsLocation = new GPSLocation(mContext);
+
         addPoint();
         showMarkerPoint();
 
-        TMapPoint myPoint = new TMapPoint(tmapview.getLatitude(), tmapview.getLongitude());
+
+        //TMapPoint myPoint = new TMapPoint(tmapview.getLatitude(), tmapview.getLongitude());
+        TMapPoint myPoint = new TMapPoint(gpsLocation.location.getLatitude(), gpsLocation.location.getLongitude());
         TMapPoint searchPoint = new TMapPoint(37.512159, 126.925482);//경로 탐색 실행
 
+        searchRoute(myPoint, searchPoint);
+        showTurnType(myPoint, searchPoint);
 
 
     }
@@ -233,27 +245,6 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
         m_mapPoint.add(new MapPoint("부천 안중근 공원", 37.504412, 126.759060));
         m_mapPoint.add(new MapPoint("창의관", 37.4947909, 126.9594342));
     }
-
-
-/*    public void getXml(TMapPoint startPoint, TMapPoint endPoint) { //XML 문서를 함수로 직접 받아와 파싱(실패)
-        new TMapData().findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new TMapData.FindPathDataAllListenerCallback() {
-            @Override
-            public void onFindPathDataAll(Document doc) {
-                Element root = doc.getDocumentElement();
-                NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
-                for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
-                    NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
-                    for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
-                        if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
-                            Log.d("debug", nodeListPlacemarkItem.item(j).getTextContent().trim());
-                        }
-                    }
-                }
-            }
-        });
-    } */
-
-
 
     public void showTurnType(final TMapPoint startPoint, final TMapPoint endPoint) //URL을 통해 받아온 xml 문서를 파싱하여
     // 경로 안내 문구 + turn type 상수을 log로 출력
@@ -302,10 +293,15 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
                                 if(placemarkList.item(j).getNodeName().equals("tmap:turnType")) {
                                     turn = Integer.parseInt(placemarkList.item(j).getTextContent());
                                     Log.i("turn type","turn type : "+turn);
+                                    //turnType[j] = turn;
                                 }
                             }
                         }
                     }
+                  /*  for(int i =0 ; i< turnType.length ; i++)
+                    {
+                        Log.i("String turn type", "turn type : "+ turnType[i]);
+                    } */
                 }catch(Exception e ) {
                     Log.i("error발생", "error");
                 }
@@ -314,8 +310,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
     }
 
 
-    public void searchRoute(TMapPoint end) { //TMap 위에 경로를 탐색한 경로 Poly line 그리는 함수
-        TMapPoint start = new TMapPoint(tmapview.getLatitude(), tmapview.getLongitude());
+    public void searchRoute(TMapPoint start, TMapPoint end) { //TMap 위에 경로를 탐색한 경로 Poly line 그리는 함수
         try {
             new TMapData().findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, start, end, new TMapData.FindPathDataListenerCallback() {
                 @Override

@@ -205,6 +205,21 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>touched</find>
+      <find>button</find>
+      <find>fullscreen</find>
+      <find>myPoint</find>
+      <find>gpslocation</find>
+      <find>org</find>
+      <find>org.tech</find>
+      <find>context</find>
+      <find>mcontext</find>
+      <find>this</find>
+      <find>location</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -225,7 +240,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/techtown/ar/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/techtown/ar/VisualPointer.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/techtown/ar/GPSLocation.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/techtown/ar/DataManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/techtown/ar/CameraActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_camera.xml" />
@@ -242,11 +256,11 @@
     <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -276,13 +290,19 @@
             <path>
               <item name="AR" type="b2602c69:ProjectViewProjectNode" />
               <item name="AR" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="lib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AR" type="b2602c69:ProjectViewProjectNode" />
               <item name="AR" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="lib" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="libs" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="ar" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -344,8 +364,8 @@
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../AppData/Local/Android/Sdk" />
-    <property name="device.picker.selection" value="234dd1209f0c7ece" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../compass" />
+    <property name="device.picker.selection" value="2c8dd2ea1b037ece" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/[Android]TmapSDK_1.60/[Android]TmapSDK_1.60/lib/com.skt.Tmap_1.60.jar" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -503,6 +523,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Android App.app" />
+      <item itemvalue="Android App.TmapActivity" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Android App.TmapActivity" />
@@ -655,13 +679,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/main_icon.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/org/techtown/ar/R.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="2987" column="30" selection-start-line="2987" selection-start-column="30" selection-end-line="2987" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r/org/techtown/ar/R.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-v24/main_icon.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -709,19 +727,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="66">
           <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../AppData/Local/Android/Sdk/sources/android-28/android/hardware/SensorEventListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="42" column="16" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../AppData/Local/Android/Sdk/sources/android-28/android/hardware/SensorEventListener.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/techtown/ar/Compassmeter.java" />
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
@@ -772,7 +781,6 @@
         <state relative-caret-position="572">
           <caret line="38" column="61" selection-start-line="38" selection-start-column="61" selection-end-line="38" selection-end-column="61" />
         </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_camera.xml">
       <provider selected="true" editor-type-id="android-designer2" />
@@ -798,14 +806,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/techtown/ar/SOTWFormatter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/techtown/ar/Accelerometer.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/techtown/ar/Compass.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="671">
           <caret line="49" column="61" selection-start-line="49" selection-start-column="61" selection-end-line="49" selection-end-column="61" />

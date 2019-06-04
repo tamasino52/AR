@@ -80,7 +80,9 @@ public class GPSLocation {
 
     public GPSLocation(Context context) {
         textView = ((Activity) context).findViewById(R.id.GPSInfo);
+        //textView = null;
         distanceInfo = ((Activity) context).findViewById(R.id.distanceInfo);
+        //distanceInfo = null;
         //Permission Check part
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -89,14 +91,14 @@ public class GPSLocation {
                     && ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, android.Manifest.permission.ACCESS_COARSE_LOCATION)) {
                 // 권한 재요청
                 ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-                return;
+               return;
             } else {
                 ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
                 return;
             }
         }
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 500,1, mLocationListener);

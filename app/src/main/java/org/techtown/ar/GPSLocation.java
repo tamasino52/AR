@@ -79,10 +79,10 @@ public class GPSLocation {
 
 
     public GPSLocation(Context context) {
-        //textView = ((Activity) context).findViewById(R.id.GPSInfo);
-        textView = null;
-        //distanceInfo = ((Activity) context).findViewById(R.id.distanceInfo);
-        distanceInfo = null;
+        textView = ((Activity) context).findViewById(R.id.GPSInfo);
+        //textView = null;
+        distanceInfo = ((Activity) context).findViewById(R.id.distanceInfo);
+        //distanceInfo = null;
         //Permission Check part
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

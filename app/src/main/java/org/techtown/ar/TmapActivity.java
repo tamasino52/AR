@@ -175,18 +175,12 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
 
             @Override
             public boolean onPressUpEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
-<<<<<<< HEAD
                 // 마커를 클릭시 도착경로로 지정 tmapgps 통해서 내 좌표 받아오기
                 TMapPoint myPoint = new TMapPoint(tmapgps.getLocation().getLatitude(), tmapgps.getLocation().getLongitude());
-=======
-                // 마커를 클릭시 도착경로로 지정
-                TMapPoint myPoint = new TMapPoint(tmapview.getLongitude(), tmapview.getLatitude());
-
->>>>>>> parent of 44d519a... Update TmapActivity.java
                 for (TMapMarkerItem item : arrayList) {
                     try {
-                        TMapPolyLine polyLine = new TMapData().findPathData(myPoint, item.getTMapPoint());
-                        tmapview.addTMapPath(polyLine);
+                        TMapPoint endPoint = item.getTMapPoint();
+                        searchRoute(myPoint, endPoint);
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(),"ERROR URL", Toast.LENGTH_LONG).show();
                     }

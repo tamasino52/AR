@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AR.iml" filepath="$PROJECT_DIR$/AR.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/arcore-location/arcore-location.iml" filepath="$PROJECT_DIR$/arcore-location/arcore-location.iml" />
       <module fileurl="file://$PROJECT_DIR$/com.skt.Tmap_1.60/com.skt.Tmap_1.60.iml" filepath="$PROJECT_DIR$/com.skt.Tmap_1.60/com.skt.Tmap_1.60.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
     </modules>

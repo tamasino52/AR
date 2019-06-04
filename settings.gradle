@@ -1,1 +1,1 @@
-include ':app', ':lib', ':com.skt.Tmap_1.60'
+include ':app', ':lib', ':com.skt.Tmap_1.60', ':arcore-location'

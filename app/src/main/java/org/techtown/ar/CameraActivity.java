@@ -36,12 +36,6 @@ public class CameraActivity extends Activity {
     public Accelerometer accelerometer;
     public Gyroscoper gyroscoper;
     TextView headingInfo;
-    //위치지정 AR
-    private ArSceneView arSceneView;
-    private ModelRenderable foxrenderable;
-    private LocationScene locationScene;
-    private ViewRenderable informViewRenderable;
-    private boolean hasFinishedLoading = false;
     //일정시간마다 방위각을 기준으로 각속도 오프셋 수정
     Timer mLongPressTimer = null;
     @Override
@@ -49,38 +43,6 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_camera);
-
-        arSceneView = findViewById(R.id.ar_scene_view);
-        CompletableFuture<ModelRenderable> fox = ModelRenderable.builder()
-                .setSource(this, R.raw.arcticfox).build();
-        /*
-        CompletableFuture<ViewRenderable> informView = ViewRenderable.builder()
-                .setView(this, R.id.informView).build();
-                */
-        CompletableFuture.allOf(fox).handle((notUsed, throwable) -> {
-            if(throwable != null) {
-                DemoUtils.displayError(this, "Unable", throwable);
-                return null;
-            }
-            try {
-                //informViewRenderable =
-                foxrenderable = fox.get();
-                hasFinishedLoading = true;
-            } catch (InterruptedException | ExecutionException ex) {
-                DemoUtils.displayError(this, "Unable", ex);
-            }
-            return null;
-        });
-
-        arSceneView.getScene().addOnUpdateListener(frameTime -> {
-            if(!hasFinishedLoading) return;
-            if(locationScene == null) {
-                locationScene = new LocationScene(this, arSceneView);
-                //informView 코드 추가 필요
-                locationScene.mLocationMarkers
-                        .add(new LocationMarker(126.9487, 37.4794, getModel()));
-            }
-        });
 
         cameraPreview = new CameraPreview(this);
         ImageView imageView = (ImageView) findViewById(R.id.visualPointer);
@@ -109,15 +71,6 @@ public class CameraActivity extends Activity {
         mLongPressTimer.schedule(t, 0, 5000);
     }
 
-    private Node getModel() {
-        Node base = new Node();
-        base.setRenderable(foxrenderable);
-        Context c = this;
-        base.setOnTapListener((v, event) -> {
-            Toast.makeText(c, "fox touched", Toast.LENGTH_LONG).show();
-        });
-        return base;
-    }
 
     @Override
     protected void onResume() {

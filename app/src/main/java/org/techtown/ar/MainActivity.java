@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         doFullScreen();
-
     }
 
 
@@ -42,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
     public void onCameraButtonClicked(View v) {
         // 현재 보여지는 액티비티를 카메라 액티비티로 교체
         Intent intent = new Intent(getApplicationContext(),CameraActivity.class);
+        startActivity(intent);
+    }
+
+    // AR 버튼을 클릭했을 때 실행되는 이벤트 함수
+    public void onArButtonClicked(View v) {
+        // 현재 보여지는 액티비티를 Ar 액티비티로 교체
+        Intent intent = new Intent(getApplicationContext(),ArActivity.class);
         startActivity(intent);
     }
 

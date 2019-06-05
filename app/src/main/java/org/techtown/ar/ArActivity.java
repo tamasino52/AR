@@ -41,7 +41,7 @@ public class ArActivity extends Activity {
     public double latitude;
 
     @Override
-    //@SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
+    @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar);

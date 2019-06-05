@@ -46,10 +46,9 @@ public class CameraActivity extends Activity {
         arSceneView = findViewById(R.id.ar_scene_view);
         CompletableFuture<ViewRenderable> informLayout = ViewRenderable.builder()
                 .setView(this, R.layout.inform_layout).build();
-        /* 모델 생성 코드
         CompletableFuture<ModelRenderable> fox = ModelRenderable.builder()
-                .setSource(this, R).build();
-                */
+                .setSource(this, R.raw.arcticfox).build();
+
 
         setContentView(R.layout.activity_camera);
         cameraPreview = new CameraPreview(this);

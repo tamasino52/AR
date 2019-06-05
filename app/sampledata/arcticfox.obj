@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib ArcticFox_Posed.mtl
+mtllib arcticfox.mtl
 g default
 v -0.552024 5.294837 1.356248
 v -0.635783 5.226959 1.245584

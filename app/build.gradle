@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.ar.sceneform.plugin'
 
 android {
     compileOptions {
@@ -38,3 +39,8 @@ dependencies {
     implementation project(':arcore-location')
 
 }
+
+sceneform.asset('sampledata/arcticfox.obj',
+        'default',
+        'sampledata/arcticfox.sfa',
+        'src/main/res/raw/arcticfox')

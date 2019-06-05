@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AR</string>
+    <string name="plane_finding">Searching for surfaces&#8230;</string>
 </resources>

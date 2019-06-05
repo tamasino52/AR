@@ -19,6 +19,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import uk.co.appoly.arcorelocation.LocationScene;
 
@@ -35,22 +36,38 @@ public class CameraActivity extends Activity {
     private ArSceneView arSceneView;
     private ModelRenderable foxrenderable;
     private LocationScene locationScene;
-    private ViewRenderable informLayoutRenderable;
+    private ViewRenderable informViewRenderable;
+    private boolean hasFinishedLoading = false;
     //일정시간마다 방위각을 기준으로 각속도 오프셋 수정
     Timer mLongPressTimer = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_camera);
 
         arSceneView = findViewById(R.id.ar_scene_view);
-        CompletableFuture<ViewRenderable> informLayout = ViewRenderable.builder()
-                .setView(this, R.layout.inform_layout).build();
         CompletableFuture<ModelRenderable> fox = ModelRenderable.builder()
                 .setSource(this, R.raw.arcticfox).build();
+        /*
+        CompletableFuture<ViewRenderable> informView = ViewRenderable.builder()
+                .setView(this, R.id.informView).build();
+                */
+        CompletableFuture.allOf(fox).handle((notUsed, throwable) -> {
+            if(throwable != null) {
+                DemoUtils.displayError(this, "Unable", throwable);
+                return null;
+            }
+            try {
+                //informViewRenderable =
+                foxrenderable = fox.get();
+                hasFinishedLoading = true;
+            } catch (InterruptedException | ExecutionException ex) {
+                DemoUtils.displayError(this, "Unable", ex);
+            }
+            return null;
+        });
 
-
-        setContentView(R.layout.activity_camera);
         cameraPreview = new CameraPreview(this);
         ImageView imageView = (ImageView) findViewById(R.id.visualPointer);
         imageView.bringToFront();

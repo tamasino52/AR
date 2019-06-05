@@ -35,15 +35,21 @@ public class CameraActivity extends Activity {
     private ArSceneView arSceneView;
     private ModelRenderable foxrenderable;
     private LocationScene locationScene;
+    private ViewRenderable informLayoutRenderable;
     //일정시간마다 방위각을 기준으로 각속도 오프셋 수정
     Timer mLongPressTimer = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         arSceneView = findViewById(R.id.ar_scene_view);
-        //CompletableFuture<ModelRenderable> fox = ModelRenderable.builder()
-                //.setSource(this, ).build();
+        CompletableFuture<ViewRenderable> informLayout = ViewRenderable.builder()
+                .setView(this, R.layout.inform_layout).build();
+        /* 모델 생성 코드
+        CompletableFuture<ModelRenderable> fox = ModelRenderable.builder()
+                .setSource(this, R).build();
+                */
 
         setContentView(R.layout.activity_camera);
         cameraPreview = new CameraPreview(this);

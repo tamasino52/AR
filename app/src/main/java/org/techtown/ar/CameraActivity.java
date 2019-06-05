@@ -1,6 +1,7 @@
 package org.techtown.ar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +12,10 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.ar.sceneform.ArSceneView;
+import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 
@@ -21,6 +24,7 @@ import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import uk.co.appoly.arcorelocation.LocationMarker;
 import uk.co.appoly.arcorelocation.LocationScene;
 
 public class CameraActivity extends Activity {
@@ -68,6 +72,16 @@ public class CameraActivity extends Activity {
             return null;
         });
 
+        arSceneView.getScene().addOnUpdateListener(frameTime -> {
+            if(!hasFinishedLoading) return;
+            if(locationScene == null) {
+                locationScene = new LocationScene(this, arSceneView);
+                //informView 코드 추가 필요
+                locationScene.mLocationMarkers
+                        .add(new LocationMarker(126.9487, 37.4794, getModel()));
+            }
+        });
+
         cameraPreview = new CameraPreview(this);
         ImageView imageView = (ImageView) findViewById(R.id.visualPointer);
         imageView.bringToFront();
@@ -93,6 +107,16 @@ public class CameraActivity extends Activity {
             }
         };
         mLongPressTimer.schedule(t, 0, 5000);
+    }
+
+    private Node getModel() {
+        Node base = new Node();
+        base.setRenderable(foxrenderable);
+        Context c = this;
+        base.setOnTapListener((v, event) -> {
+            Toast.makeText(c, "fox touched", Toast.LENGTH_LONG).show();
+        });
+        return base;
     }
 
     @Override

@@ -321,7 +321,7 @@ public class TmapActivity extends Activity implements TMapGpsManager.onLocationC
                             for(int j = 0 ; j < placemarkList.getLength() ; j ++)
                             {
                                 if (placemarkList.item(j).getNodeName().equals("description")) {
-                                    Log.i("debug", placemarkList.item(j).getTextContent().trim());
+                                    Log.i("turn type", placemarkList.item(j).getTextContent().trim());
                                 }
                                 if(placemarkList.item(j).getNodeName().equals("tmap:turnType")) {
                                     turn = Integer.parseInt(placemarkList.item(j).getTextContent());
